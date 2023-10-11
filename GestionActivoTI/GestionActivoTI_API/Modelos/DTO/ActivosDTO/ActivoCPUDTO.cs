@@ -1,4 +1,4 @@
-﻿namespace GestionActivoTI_API.DTO.ActivosDTO
+﻿namespace GestionActivoTI_API.Modelos.DTO.ActivosDTO
 {
     public class ActivoCPUDTO
     {

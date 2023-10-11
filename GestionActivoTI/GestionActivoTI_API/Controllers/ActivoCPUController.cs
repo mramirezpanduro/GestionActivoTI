@@ -1,6 +1,8 @@
-﻿using GestionActivoTI_API.DTO.ActivosDTO;
+﻿using GestionActivoTI_API.Datos;
 using GestionActivoTI_API.Modelos.Activos;
+using GestionActivoTI_API.Modelos.DTO.ActivosDTO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestionActivoTI_API.Controllers
@@ -12,69 +14,14 @@ namespace GestionActivoTI_API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<ActivoCPUDTO>> ListarActivosCPUs()
         {
-            List<ActivoCPUDTO> activos = new List<ActivoCPUDTO>();
+            return Ok(GestionActivoStore.listaCPU);
 
-            Random rand = new Random();
-
-            for (int i = 0; i < 3; i++)
-            {
-                ActivoCPUDTO activo = new ActivoCPUDTO
-                {
-                    Id = rand.Next(1000), // Valor aleatorio para Id
-                    NroPuertoUSB3 = rand.Next(1, 11), // Valor aleatorio entre 1 y 10
-                    NroPuertoUSB2 = rand.Next(1, 11), // Valor aleatorio entre 1 y 10
-                    EsTorre = rand.Next(2) == 0, // Valor booleano aleatorio (true o false)
-                    EsRackeable = rand.Next(2) == 0, // Valor booleano aleatorio (true o false)
-                    // Campos heredados de ClaseBase
-                    Nuevo = rand.Next(2) == 0,
-                    Operativo = rand.Next(2) == 0,
-                    TieneRed = rand.Next(2) == 0,
-                    CodigoInventario = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-                    DireccionIP = new string(Enumerable.Repeat("0123456789.", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-                    Marca = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-                    Modelo = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-                    Serie = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-                    Color = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-                };
-
-                activos.Add(activo);
-            }
-
-            return Ok(activos);
         }
 
-
-        [HttpGet("id:int")]
-        public ActionResult<ActivoCPUDTO> ObtenerActivoCPUsxId(int Id)
+        [HttpGet("int: id")]
+        public ActionResult<ActivoCPUDTO> ObtenerActivoCPU(int id)
         {
-            if (Id < 1)
-                return BadRequest();
-
-            ActivoCPUDTO activoSeleccionado = null;
-
-            if (activoSeleccionado == null)
-                return NotFound();
-
-            Random rand = new Random();
-
-            return Ok(new ActivoCPUDTO
-            {
-                Id = rand.Next(1000), // Valor aleatorio para Id
-                NroPuertoUSB3 = rand.Next(1, 11), // Valor aleatorio entre 1 y 10
-                NroPuertoUSB2 = rand.Next(1, 11), // Valor aleatorio entre 1 y 10
-                EsTorre = rand.Next(2) == 0, // Valor booleano aleatorio (true o false)
-                EsRackeable = rand.Next(2) == 0, // Valor booleano aleatorio (true o false)
-                                                 // Campos heredados de ClaseBase
-                Nuevo = rand.Next(2) == 0,
-                Operativo = rand.Next(2) == 0,
-                TieneRed = rand.Next(2) == 0,
-                CodigoInventario = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-                DireccionIP = new string(Enumerable.Repeat("0123456789.", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-                Marca = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-                Modelo = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-                Serie = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-                Color = new string(Enumerable.Repeat("abcdefghijklmnopqrstuvwxyz", 15).Select(s => s[rand.Next(s.Length)]).ToArray()),
-            });
+            return Ok(GestionActivoStore.listaCPU.FirstOrDefault(x => x.Id == id));
         }
 
     }
